@@ -14,8 +14,12 @@ import net.minecraft.util.Identifier;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Blur implements ClientModInitializer {
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
+public class Blur implements ClientModInitializer {
+    public static final Logger LOGGER = LogManager.getFormatterLogger("Blur");
+    
     public static final String MODID = "blur";
     public static List<String> defaultExclusions = new ArrayList<>();
 
@@ -48,6 +52,7 @@ public class Blur implements ClientModInitializer {
         if (MinecraftClient.getInstance().world != null) {
             boolean excluded = newGui == null || BlurConfig.blurExclusions.contains(newGui.getClass().getName());
             if (!excluded) {
+                LOGGER.info("Blur test: " + "Blurring gui: " + newGui.getClass().getName());
                 blur.setUniformValue("Radius", (float) BlurConfig.radius);
                 colorFirst = Integer.parseUnsignedInt(String.valueOf(BlurConfig.gradientStartColor), 16);
                 colorSecond = Integer.parseUnsignedInt(String.valueOf(BlurConfig.gradientEndColor), 16);
